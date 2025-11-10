@@ -4,11 +4,37 @@
 
 "https://jsonplaceholder.typicode.com/users - адреса куди робити запит"
 
+async function updateUser(id, updatedData) {
+  try {
+  
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify(updatedData), 
+    });
 
-function updateUser(id, updatedData) {
-  // Ваш код
+    if (!response.ok) {
+      throw new Error('Помилка при оновленні користувача');
+    }
+
+    
+    const data = await response.json();
+
+    return data;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
-console.log(updateUser(1, { name: 'New Name' }));
+
+if (require.main === module) {
+  updateUser(1, { name: 'New Name' })
+    .then(res => console.log(res));
+}
 
 module.exports = updateUser;
+

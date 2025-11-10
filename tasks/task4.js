@@ -4,10 +4,26 @@
 "https://jsonplaceholder.typicode.com/users - адреса куди робити запит"
 
 
-function deleteUser(id) {
-  // Ваш код
+async function deleteUser(id) {
+  try {
+    // Робимо DELETE-запит за вказаним ID
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+      method: 'DELETE',
+    });
+
+  // Повертаємо сам об'єкт відповіді, щоб тест міг перевірити response.status
+  return response;
+
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
-console.log(deleteUser(1));
+// Запуск тільки при прямому запуску файлу (не при require в тестах)
+if (require.main === module) {
+  deleteUser(1)
+    .then(status => console.log(status));
+}
 
 module.exports = deleteUser;
